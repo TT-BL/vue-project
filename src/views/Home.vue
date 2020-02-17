@@ -225,6 +225,7 @@ export default {
 .home{
   overflow: hidden;
   margin-bottom:49px;
+  background-color: white;
 }
 .HeaderTop {
   position:fixed;
