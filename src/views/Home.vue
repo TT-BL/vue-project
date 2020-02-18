@@ -81,7 +81,7 @@
     </div>
     <div class="shop_detail">
       <ul>
-        <li>
+        <li @click='$router.push("/shop")'>
           <a href="#">
             <img src="../assets/shop-detail1.jpg" alt />
             <div class="shop_detail_right">
