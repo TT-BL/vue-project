@@ -1,14 +1,14 @@
 <template>
-  <div class='home'>
+  <div class="home">
     <div class="HeaderTop">
-      <div class="address">
+      <router-link to="/searchlocal" class="address">
         <i class="el-icon-location-outline"></i>
-        锦山镇 >
-      </div>
-      <div class="search">
+        {{address.city||'定位中...'}} >
+      </router-link>
+      <router-link to="/searchshops" class="search">
         <i class="el-icon-search"></i>
         <input placeholder="请输入商家或商品名称" />
-      </div>
+      </router-link>
     </div>
     <div class="nav">
       <div>
@@ -79,169 +79,51 @@
         </li>
       </ul>
     </div>
-    <div class="shop_detail">
-      <ul>
-        <li @click='$router.push("/shop")'>
-          <a href="#">
-            <img src="../assets/shop-detail1.jpg" alt />
-            <div class="shop_detail_right">
-              <h2>百悦超市</h2>
-              <div>
-                <div class="rate">
-                  <el-rate
-                    v-model="value"
-                    disabled
-                    show-score
-                    text-color="#ff9900"
-                    score-template="{value}"
-                  ></el-rate>
-                  <span class="sell">月售 40</span>
-                </div>
-                <div class="distance">35分钟|1.1km</div>
-              </div>
-              <div>
-                <div class="price">起送￥10 配送￥3</div>
-                <div class='special'>专送</div>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <img src="../assets/shop_detail2.jpg" alt />
-            <div class="shop_detail_right">
-              <h2>易购生活超市</h2>
-              <div>
-                <div class="rate">
-                  <el-rate
-                    v-model="value"
-                    disabled
-                    show-score
-                    text-color="#ff9900"
-                    score-template="{value}"
-                  ></el-rate>
-                  <span class="sell">月售 40</span>
-                </div>
-                <div class="distance">35分钟|1.1km</div>
-              </div>
-              <div>
-                <div class="price">起送￥10 配送￥3</div>
-                <div class='special'>专送</div>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <img src="../assets/shop_detail3.jpg" alt />
-            <div class="shop_detail_right">
-              <h2>超乐水果批发行</h2>
-              <div>
-                <div class="rate">
-                  <el-rate
-                    v-model="value"
-                    disabled
-                    show-score
-                    text-color="#ff9900"
-                    score-template="{value}"
-                  ></el-rate>
-                  <span class="sell">月售 40</span>
-                </div>
-                <div class="distance">35分钟|1.1km</div>
-              </div>
-              <div>
-                <div class="price">起送￥10 配送￥3</div>
-                <div class='special'>专送</div>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <img src="../assets/shop_detail4.jpg" alt />
-            <div class="shop_detail_right">
-              <h2>芳泽超市</h2>
-              <div>
-                <div class="rate">
-                  <el-rate
-                    v-model="value"
-                    disabled
-                    show-score
-                    text-color="#ff9900"
-                    score-template="{value}"
-                  ></el-rate>
-                  <span class="sell">月售 40</span>
-                </div>
-                <div class="distance">35分钟|1.1km</div>
-              </div>
-              <div>
-                <div class="price">起送￥10 配送￥3</div>
-                <div class='special'>专送</div>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <img src="../assets/shop_detail5.jpg" alt />
-            <div class="shop_detail_right">
-              <h2>人川大药房</h2>
-              <div>
-                <div class="rate">
-                  <el-rate
-                    v-model="value"
-                    disabled
-                    show-score
-                    text-color="#ff9900"
-                    score-template="{value}"
-                  ></el-rate>
-                  <span class="sell">月售 40</span>
-                </div>
-                <div class="distance">35分钟|1.1km</div>
-              </div>
-              <div>
-                <div class="price">起送￥10 配送￥3</div>
-                <div class='special'>专送</div>
-              </div>
-            </div>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <Retaurants v-if='gotAddress'/>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import Retaurants from '../components/Retaurants/Retaurants'
 export default {
-  data () {
+  data() {
     return {
-      value: 3.7
-    }
+      value: 3.7,
+      shops:[]
+    };
+  },
+  computed: {
+    ...mapGetters(["address",'gotAddress'])
+  },
+  components:{
+    Retaurants
   }
 }
 </script>
 
 <style lang="less" scoped>
-.home{
+.home {
   overflow: hidden;
-  margin-bottom:49px;
+  margin-bottom: 49px;
   background-color: white;
 }
 .HeaderTop {
-  position:fixed;
+  position: fixed;
   padding: 0 7px;
   display: flex;
-  width:100%;
+  width: 100%;
   height: 50px;
   align-items: center;
   background-color: #1c1b20;
   box-sizing: border-box;
   .address {
-    width: 30%;
+    max-width: 200px;
     color: #fff;
+    margin-right: 20px;
   }
   .search {
-    width: 70%;
+    flex: 1 0 0;
     height: 30px;
     border-radius: 20px;
     background-color: #fff;
@@ -262,7 +144,7 @@ export default {
   max-height: 170px;
   margin-bottom: 15px;
   overflow: hidden;
-  margin-top:50px;
+  margin-top: 50px;
   div {
     display: flex;
     justify-content: space-around;
@@ -330,56 +212,6 @@ export default {
       display: inline-block;
       width: 25%;
       height: 100%;
-    }
-  }
-}
-.shop_detail {
-  li {
-    margin-top: 10px;
-    margin-bottom: 25px;
-    a {
-      display: flex;
-      padding: 0 10px;
-      color: #333;
-      img {
-        height: 57px;
-      }
-      .shop_detail_right {
-        flex: 1 0 0;
-        margin-left:10px;
-        .el-rate {
-          display: inline-block;
-        }
-        h2 {
-          font-weight: 700;
-          font-size: 16px;
-        }
-        & > div {
-          display: flex;
-          justify-content: space-between;
-          margin-top: 4px;
-          font-size: 12px;
-        }
-        .rate {
-          .el-rate {
-            margin-right: 5px;
-          }
-          .sell {
-            vertical-align: middle;
-          }
-        }
-        .distance {
-          line-height: 20px;
-        }
-        .special{
-          width: 50px;
-          height: 15px;
-          background-color: #ffd161;
-          border-radius: 5px 0 5px 0;
-          text-align: center;
-          line-height: 15px;
-        }
-      }
     }
   }
 }

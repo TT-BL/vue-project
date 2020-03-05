@@ -1,103 +1,31 @@
 <template>
   <div>
     <div class="shopGoods">
-      <div class="header">
-        <div class="back">
-          <i class="el-icon-arrow-left"></i>
-        </div>
-        <div class="shop_Introduction">
-          <img src="../../assets/brand.jpg" alt />
-          <div>
-            <div class="distance">35分钟|2.1km</div>
-            <div class="notification">公告：欢迎光临，很高兴为您服务</div>
-            <div class="discount">
-              <img src="../../assets/discount1.png" alt />
-              <span>折扣商品4.7折起</span>
-              <span class="arrow-right">＞</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <ul class="nav">
-        <li>
-          点菜
-          <div class="current"></div>
-        </li>
-        <li>评价</li>
-        <li>商家</li>
-      </ul>
       <div class="list">
         <ul class="menu">
-          <li>
+          <li v-for='(food,index) in foods' :key='index'>
             <a href="javaScript:;">
-              <img src="../../assets/hot.png" alt />
-              热销
+              <img src="../../assets/hot.png" alt v-show='food.name==="热销"'/>
+              <img src="../../assets/discount.png" alt v-show='food.name==="折扣"'/>
+              {{food.name}}
             </a>
-          </li>
-          <li>
-            <a href="javaScript:;">
-              <img src="../../assets/discount.png" alt />
-              折扣
-            </a>
-          </li>
-          <li>
-            <a href="javaScript:;">中国加油</a>
-          </li>
-          <li>
-            <a href="javaScript:;">每日限购</a>
-          </li>
-          <li>
-            <a href="javaScript:;">红枣粥</a>
-          </li>
-          <li>
-            <a href="javaScript:;">暖心甜粥</a>
-          </li>
-          <li>
-            <a href="javaScript:;">汤类</a>
-          </li>
-          <li>
-            <a href="javaScript:;">主食</a>
-          </li>
-          <li>
-            <a href="javaScript:;">暖心甜粥</a>
-          </li>
-          <li>
-            <a href="javaScript:;">汤类</a>
-          </li>
-          <li>
-            <a href="javaScript:;">主食</a>
           </li>
         </ul>
         <div class="goods">
-          <dl>
-            <dt>热销</dt>
-            <dd @click="toggleShow">
+          <dl v-for='(food,index) in foods' :key='index'>
+            <dt>{{food.name}}</dt>
+            <dd v-for='(spu,index) in food.spus' :key='index' @click="toggleShow">
               <a href="javaScript:;">
-                <img src="../../assets/food_goods1.jpg" alt />
+                <img :src="spu.pic_url" alt />
                 <div class="goods_info">
-                  <h2>五香肉夹馍【1个】</h2>
-                  <div class="sell">月售量320 赞7</div>
+                  <h2>{{spu.name}}</h2>
+                  <div class="sell">月售量{{spu.month_saled_content}} 赞{{spu.praise_num}}</div>
                   <div class="goods_increase">
-                    <span class="price">$4.8</span>/1个
+                    <span class="price">${{spu.skus[0].price}}</span>/1个
                     <span class="original_price">8.8</span>
                     <img src="../../assets/increase.png" alt />
                   </div>
                   <span class="discount">5.45折</span>
-                </div>
-              </a>
-            </dd>
-            <dd>
-              <a href="javaScript:;">
-                <img src="../../assets/food_goods2.jpg" alt />
-                <div class="goods_info">
-                  <h2>小米南瓜粥</h2>
-                  <div class="sell">月售量209 赞5</div>
-                  <div class="goods_increase">
-                    <span class="price">$7.6</span>/1个
-                    <span class="original_price">16</span>
-                    <img src="../../assets/increase.png" alt />
-                  </div>
-                  <span class="discount">4.75折</span>
                 </div>
               </a>
             </dd>
@@ -114,21 +42,30 @@
           <span class="price">$4.8</span>/1个
           <div class="cart">加入购物车</div>
         </div>
+        <button class='good_back' @click="toggleShow"></button>
       </div>
-      <!-- <div class="good_cover"></div> -->
+      <div class="good_cover" @click="toggleShow"></div>
     </div>
   </div>
 </template>
 
 <script>
+import {getFoods} from '../../api/index'
 export default {
   data () {
     return {
-      isShow: false
+      isShow: false,
+      restaurant_id:'',
+      foods:[]
     }
   },
-  mounted () {
-    console.log(this.isShow)
+  created(){
+    this.restaurant_id=this.$route.query.id
+    getFoods(this.restaurant_id).then((Response)=>{
+      console.log(Response);
+      
+      this.foods=Response.data.data
+    })
   },
   methods: {
     toggleShow () {
@@ -143,17 +80,20 @@ export default {
   h2 {
     font-weight: 700;
     margin-bottom: 2px;
+    padding-left:5px;
   }
   .sell {
     font-size: 12px;
     margin-bottom: 15px;
     line-height: 15px;
+    padding-left:5px;
   }
   .goods_increase {
     position: relative;
     color: #999;
     font-size: 12px;
-    margin-bottom: 5px;
+    padding-left:5px;
+    padding-bottom: 15px;
     .price {
       color: red;
       font-size: 18px;
@@ -162,64 +102,6 @@ export default {
 }
 .shopGoods {
   background-color: white;
-  .header {
-    background-color: rgb(46, 7, 59);
-    color: white;
-    .back {
-      height: 50px;
-      line-height: 50px;
-    }
-    .shop_Introduction {
-      height: 80px;
-      position: relative;
-      padding-left: 95px;
-      & > img {
-        width: 85px;
-        position: absolute;
-        top: 5px;
-        left: 10px;
-      }
-      & > div {
-        font-size: 12px;
-        line-height: 16px;
-        .distance {
-          padding-bottom: 5px;
-        }
-        .discount {
-          margin-top: 10px;
-          padding-right: 15px;
-          img {
-            vertical-align: middle;
-            width: 15px;
-            margin-right: 8px;
-          }
-          .arrow-right {
-            float: right;
-          }
-        }
-      }
-    }
-  }
-  .nav {
-    display: flex;
-    border-bottom: 1px solid #ccc;
-    margin-top: 20px;
-    li {
-      flex: 1 0 auto;
-      text-align: center;
-      line-height: 40px;
-      position: relative;
-      .current {
-        width: 20px;
-        height: 2px;
-        background: orange;
-        position: absolute;
-        left: 50%;
-        bottom: -1px;
-        transform: translateX(-50%);
-      }
-    }
-  }
   .list {
     display: flex;
     .menu {
@@ -235,6 +117,7 @@ export default {
         }
         &:first-child {
           background-color: white;
+          font-weight: bold;
         }
       }
     }
@@ -287,20 +170,21 @@ export default {
   position: fixed;
   top: 0px;
   left: 0px;
-  bottom: 48px;
+  bottom: 0px;
   background-color: rgba(0,0,0,.5);
   .good_detail {
     border-radius: 8px;
     width: 80%;
-    z-index:10px;
+    z-index:10;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0px);
     background-color: white;
-    overflow: hidden;
+    // overflow: hidden;
     img {
       width: 100%;
+      margin-bottom:5px;
     }
     .detail;
     .cart {
@@ -315,6 +199,29 @@ export default {
       right: 5px;
       padding: 0 15px;
     }
+    .good_back{
+      display: inline-block;
+      outline: none;
+      position:absolute;
+      bottom:-28px;
+      right:50%;
+      transform: translateX(50%);
+      width:40px;
+      height:40px;
+      border:10px solid transparent;
+      box-sizing: content-box;
+      background: url('../../assets/back.png') no-repeat;
+      background-size: 100% 100%;
+      padding:0;
+    }
+  }
+  .good_cover{
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    z-index:8px;
+    width:100%;
   }
 }
 </style>

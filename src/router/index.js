@@ -8,26 +8,69 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      showFooter: true,
+      keepAlive: true,
+    }
   },
   {
     path: '/profile',
     name: 'Profile',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Profile.vue'),
+    meta: {
+      showFooter: true
+    }
   },
   {
     path: '/order',
     name: 'Order',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Order.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Order.vue'),
+    meta: {
+      showFooter: true
+    }
   },
   {
     path: '/shop',
-    name: 'Shop',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Shop/ShopGoods.vue')
-  }
+    component: () => import(/* webpackChunkName: "about" */ '../views/Shop/Shop.vue'),
+    children: [
+      {
+        path: '/shop/goods',
+        name: 'ShopGoods',
+        component: () => import(/* webpackChunkName: "about" */ '../views/Shop/ShopGoods.vue')
+      },
+      {
+        path: '/shop/rate',
+        name: 'Rate',
+        component: () => import(/* webpackChunkName: "about" */ '../views/Shop/Rate.vue')
+      },
+      {
+        path: '/shop/info',
+        name: 'Info',
+        component: () => import(/* webpackChunkName: "about" */ '../views/Shop/Info.vue')
+      },
+      {
+        path: '/',
+        redirect: '/shop/goods'
+      }
+    ]
+  },
+  {
+    path: '/searchlocal',
+    name: 'SearchLocal',
+    component: () => import(/* webpackChunkName: "about" */ '../views/SearchLocal.vue')
+  },
+  {
+    path: '/searchshops',
+    name: 'SearchShops',
+    component: () => import(/* webpackChunkName: "about" */ '../views/SearchShops.vue')
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
+  },
+
 ]
 
 const router = new VueRouter({
