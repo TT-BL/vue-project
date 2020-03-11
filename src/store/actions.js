@@ -2,10 +2,10 @@
 import { 
   RECERVE_ADDRESS,
   CHANGE_LOCATON,
-  GET_RESTAURANTS,
-  GOT_ADDRESS
+  GOT_ADDRESS,
+  GET_RESTAURANT
 } from './mutation-types'
-import { location,getRestaurants} from '../api'
+import { location,getRestaurant} from '../api'
 
 export default {
 
@@ -27,15 +27,12 @@ export default {
    commit(GOT_ADDRESS,true)
   },
 
-  //获取商家
-  async getShops({commit,state}){
-    const { address } = state
-    const lng=address.lng
-    const lat=address.lat
-    const result=await getRestaurants({lng,lat})
-    // console.log(result)
-    if(result.data.status===200){
-      commit(GET_RESTAURANTS,result.data.data)
+  //获取商家详细信息
+  async getShop({commit},restaurant_id)
+  {
+    const result=await getRestaurant(restaurant_id)
+    if(result.data.status===1){
+      commit(GET_RESTAURANT,result.data.data)
     }
-  },
+  }
 }

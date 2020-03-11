@@ -4,5 +4,5 @@ export default {
   longitude: 116.36967,
   address: {},
   gotAddress:false,
-  restaurants:[]
+  restaurant:{}
 }

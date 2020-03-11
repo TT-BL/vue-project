@@ -2,8 +2,8 @@
 import { 
   RECERVE_ADDRESS,
   CHANGE_LOCATON,
-  GET_RESTAURANTS,
-  GOT_ADDRESS
+  GOT_ADDRESS,
+  GET_RESTAURANT
 } from './mutation-types'
 export default {
   [RECERVE_ADDRESS] (state,address ) {
@@ -12,10 +12,10 @@ export default {
   [CHANGE_LOCATON](state,address){
     state.address = {...address}
   },
-  [GET_RESTAURANTS](state,data){
-    state.restaurants=data;
-  },
   [GOT_ADDRESS](state,boolean){
     state.gotAddress=boolean
+  },
+  [GET_RESTAURANT](state,data){
+    state.restaurant=data
   }
 }
