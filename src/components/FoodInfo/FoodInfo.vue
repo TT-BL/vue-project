@@ -5,7 +5,7 @@
     <div class="sell">月售量{{food.month_saled}} 赞{{food.praise_num}}</div>
     <div class="goods_increase">
       <span class="price">${{food.skus[0].price}}</span>
-      <div class="cart">加入购物车</div>
+      <div class="cart" @click="$emit('add')">加入购物车</div>
     </div>
     <button class="good_back" @click="$emit('show')"></button>
   </div>
@@ -16,9 +16,6 @@ export default {
     props:{
       food:Object
     },
-    // created(){
-    //     console.log(food);
-    // }
 };
 </script>
 

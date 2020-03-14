@@ -30,7 +30,11 @@
                     <div class="sell">月售量{{spu.month_saled_content}} 赞{{spu.praise_num}}</div>
                     <div class="goods_increase">
                       <span class="price">${{spu.skus[0].price}}</span>
-                      <img src="../../assets/increase.png" alt />
+                      <div>
+                         <img src="../../assets/delete.png" alt v-if="currentCart[spu.id]?currentCart[spu.id]:false" @click.stop='deleteCart(spu)'/>
+                         <span  v-if="currentCart[spu.id]?currentCart[spu.id]:false">{{currentCart[spu.id].rep}}</span>
+                        <img src="../../assets/increase.png" alt @click.stop='addLocal(spu)'/>
+                      </div>
                     </div>
                   </div>
                 </a>
@@ -39,17 +43,18 @@
           </div>
         </div>
       </div>
-      <Cart :food='food'/>
+      <Cart :food="food" />
     </div>
-    <FoodInfo v-show="isShow" v-on:show="toggleShow" :food="food" />
+    <FoodInfo v-show="isShow" v-on:show="toggleShow" :food="food" v-on:add="addLocal(food)"/>
     <div class="good_cover" @click="toggleShow" v-show="isShow"></div>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
 import { getFoods } from "../../api/index";
 import FoodInfo from "../../components/FoodInfo/FoodInfo";
-import Cart from '../../components/Shopcart/ShopCart'
+import Cart from "../../components/ShopCart/ShopCart";
 import BScroll from "better-scroll";
 export default {
   data() {
@@ -61,17 +66,9 @@ export default {
         skus: [{ price: 0 }]
       },
       scrollY: 0,
-      tops: []
+      tops: [],
+      // currentCart:{}
     };
-  },
-  computed: {
-    currentIndex: function() {
-      const { tops, scrollY } = this;
-      const index = tops.findIndex((value, key) => {
-        return scrollY >= tops[key] && scrollY < tops[key + 1];
-      });
-      return index;
-    }
   },
   created() {
     this.restaurant_id = this.$route.query.id;
@@ -82,6 +79,7 @@ export default {
         this._initScroll();
       });
     });
+    
   },
   methods: {
     toggleShow(value) {
@@ -122,43 +120,47 @@ export default {
       const scrollY = this.tops[index];
       this.scrollY = scrollY;
       this.scroll.scrollTo(0, -scrollY, 300);
+    },
+    addLocal(food){
+      const retaurant_food={
+         restaurant_id:this.restaurant_id,
+         food_id:food.id,
+         food_pic:food.pic_url,
+         price:food.skus[0].price
+       }
+      this.$store.dispatch('addCart',retaurant_food)
+      this.$store.dispatch('currentCart',this.restaurant_id)
+    },
+    deleteCart(food){
+       const retaurant_food={
+         restaurant_id:this.restaurant_id,
+         food_id:food.id,
+       }
+       this.$store.dispatch('deleteCart',retaurant_food)
+       this.$store.dispatch('currentCart',this.restaurant_id)
+      //  console.log(this.currentCart);
+    }
+  },
+  computed: {
+    ...mapState(['currentCart']),
+    currentIndex: function() {
+      const { tops, scrollY } = this;
+      const index = tops.findIndex((value, key) => {
+        return scrollY >= tops[key] && scrollY < tops[key + 1];
+      });
+      return index;
     }
   },
   components: {
     FoodInfo,
     Cart
-  }
+  },
 };
 </script>
 
 <style lang="less" scoped>
 .all_shopGoods {
   height: calc(~"100% - 241px");
-  .detail {
-    h2 {
-      font-weight: 700;
-      margin-bottom: 2px;
-      padding-left: 5px;
-      color: #333;
-    }
-    .sell {
-      font-size: 12px;
-      margin-bottom: 15px;
-      line-height: 15px;
-      padding-left: 5px;
-    }
-    .goods_increase {
-      position: relative;
-      color: #999;
-      font-size: 12px;
-      padding-left: 5px;
-      padding-bottom: 15px;
-      .price {
-        color: red;
-        font-size: 18px;
-      }
-    }
-  }
   .shopGoods {
     background-color: white;
     height: 100%;
@@ -210,12 +212,45 @@ export default {
             }
             .goods_info {
               width: 100%;
-              .detail;
-              img {
-                width: 25px;
-                position: absolute;
-                top: 0px;
-                right: 5px;
+              h2 {
+                font-weight: 700;
+                margin-bottom: 2px;
+                padding-left: 5px;
+                color: #333;
+              }
+              .sell {
+                font-size: 12px;
+                margin-bottom: 15px;
+                line-height: 15px;
+                padding-left: 5px;
+              }
+              .goods_increase {
+                position: relative;
+                color: #999;
+                font-size: 12px;
+                padding-left: 5px;
+                padding-bottom: 15px;
+                .price {
+                  color: red;
+                  font-size: 18px;
+                }
+                & > div {
+                  position: absolute;
+                  top: -5px;
+                  right: 5px;
+                  height:25px;
+                  img {
+                    width: 25px;
+                  }
+                  span{
+                    padding:0 10px;
+                    text-align: center;
+                    color:#333;
+                    line-height: 25px;
+                    vertical-align: top;
+                    font-size:16px;
+                  }
+                }
               }
             }
           }

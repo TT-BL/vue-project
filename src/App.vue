@@ -13,6 +13,7 @@ import FootGuide from './components/FootGuide/FootGuide.vue'
 export default {
   created(){
     this.$store.dispatch('getLocation')
+    this.$store.dispatch('initCart')
   },
   components: {
     FootGuide

@@ -14,7 +14,7 @@
               <transition-group
                 name="discount"
                 tag="ul"
-                :style="'transform:translateY('+positionY*-17+'px)'"
+                :style="'transform:translateY('+positionY % discountLength * -17+'px)'"
               >
                 <li v-for="(discount,index) in restaurant.discounts2" :key="index">
                   <img :src="discount.icon_url" alt />
@@ -73,26 +73,25 @@ export default {
     };
   },
   computed: {
-    ...mapState(['restaurant'])
+    ...mapState(['restaurant']),
+    discountLength(){
+      return this.restaurant.discounts2?this.restaurant.discounts2.length:0
+    }
   },
   methods: {
     swipper() {
-      const length=this.restaurant.discounts2.length;
       setInterval(() => {
-        this.positionY++;
-        if (this.positionY == length) {
-          this.positionY = 0;
-        }
+        this.positionY++
       }, 4000);
     }
   },
   created() {
     this.restaurant_id = this.$route.query.id;
     this.$store.dispatch('getShop',this.restaurant_id)
+    this.$store.dispatch('currentCart',this.restaurant_id) 
   },
   mounted(){
     this.$nextTick(()=>{
-      console.log(this.restaurant);
       this.swipper();
     })
   }

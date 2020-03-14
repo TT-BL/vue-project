@@ -3,7 +3,11 @@ import {
   RECERVE_ADDRESS,
   CHANGE_LOCATON,
   GOT_ADDRESS,
-  GET_RESTAURANT
+  GET_RESTAURANT,
+  ADD_CART,
+  INIT_CART,
+  DELETE_CART,
+  CURRENT_CART
 } from './mutation-types'
 import { location,getRestaurant} from '../api'
 
@@ -34,5 +38,32 @@ export default {
     if(result.data.status===1){
       commit(GET_RESTAURANT,result.data.data)
     }
+  },
+
+  //加入购物车
+  addCart({commit},food){
+    commit(ADD_CART,food)
+  },
+
+  //初始化cart
+  initCart({commit}){
+    commit(INIT_CART)
+  },
+
+  //商品数量减一
+  deleteCart({commit},food){
+    commit(DELETE_CART,food)
+  },
+  //获取当前商家购物车信息
+  currentCart({commit,state},restaurant_id)
+  {
+    let currentcart
+    if(state.cart[restaurant_id]){
+      currentcart=state.cart[restaurant_id]
+    }
+    else{
+      currentcart={}
+    }
+    commit(CURRENT_CART,currentcart)
   }
 }
