@@ -40,7 +40,6 @@ export default {
   methods: {
     getShops(lng, lat) {
       getRestaurants({ lng, lat }).then(Response => {
-        console.log(Response)
         this.shops = Response.data.data;
       });
     }
@@ -48,7 +47,7 @@ export default {
   created() {
     const { lng, lat } = this.address;
     if (lng && lat) {
-      console.log("22");
+      // console.log("22");
       this.getShops(lng, lat);
     }
   },

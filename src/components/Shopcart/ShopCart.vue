@@ -11,13 +11,16 @@
       </div>
       <span :class="{DeliveryCharge:totalPrice==0}">{{restaurant.shipping_fee_tip}}</span>
     </div>
-    <div :style='{background:accoutsColor}' :class='{StartingPrice:true,Hasaccounts:accoutsColor==="#f8c74e"}'>{{isAccounts}} </div>
+    <div :style='{background:accoutsColor}' class='StartingPrice Hasaccounts'  @click="$router.push({path:'/orderdetail',query:{id}})" v-if='isAccounts=="去结算"'>{{isAccounts}} </div>
+    <div :style='{background:accoutsColor}' class='StartingPrice' v-else>{{isAccounts}} 
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
 export default {
+  props:['id'],
   computed: {
     ...mapState(["restaurant"]),
     ...mapGetters(["totalPrice", "totalCount"]),

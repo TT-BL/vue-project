@@ -2,7 +2,7 @@
   <div class="info">
     <div class="shop_address">
       <i class="iconfont icon-dizhi"></i>
-      <span>天津市南开区王顶堤楚雄道93号</span>
+      <span>{{restaurant.address}}</span>
       <div>
         <img src="../../assets/phone.png" alt />
       </div>
@@ -14,7 +14,7 @@
     </div>
     <div class="shop_time">
       <i class="iconfont icon-shijian"></i>
-      <span>配送时间：08:10-20:45</span>
+      <span>配送时间：{{restaurant.shopping_time_start}}-{{restaurant.shopping_time_end}}</span>
     </div>
     <div class="shop_discount">
       <i class="iconfont icon-right-1"></i>
@@ -43,6 +43,17 @@
     </div>
   </div>
 </template>
+<script>
+import {mapState} from 'vuex'
+export default {
+  computed:{
+    ...mapState(['restaurant'])
+  }
+}
+</script>
+export default {
+
+}
 <style lang="less" scoped>
 .info {
   height:100%;
@@ -57,6 +68,12 @@
   .shop_address {
     span {
       margin-left: 5px;
+      display:inline-block;
+      width: 75%;
+      height:20px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     div {
       float: right;

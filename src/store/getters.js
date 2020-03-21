@@ -4,7 +4,7 @@ export default{
    totalPrice:(state)=>{
       let price=0
       for(let i in state.currentCart) {
-         price+=state.currentCart[i]['rep']*Number(state.currentCart[i]['price'])
+         price+=state.currentCart[i]['rep']*state.currentCart[i]['price']
       }
       return price
    },

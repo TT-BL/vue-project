@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <Cart :food="food" />
+      <Cart :id='restaurant_id'/>
     </div>
     <FoodInfo v-show="isShow" v-on:show="toggleShow" :food="food" v-on:add="addLocal(food)"/>
     <div class="good_cover" @click="toggleShow" v-show="isShow"></div>
@@ -125,8 +125,9 @@ export default {
       const retaurant_food={
          restaurant_id:this.restaurant_id,
          food_id:food.id,
+         name:food.name,
          food_pic:food.pic_url,
-         price:food.skus[0].price
+         price:Number(food.skus[0].price)
        }
       this.$store.dispatch('addCart',retaurant_food)
       this.$store.dispatch('currentCart',this.restaurant_id)

@@ -46,3 +46,11 @@ export const getFoods=(data)=>{
   }
   return _get(req)
 }
+//获取商家评论信息
+export const restaurantComment=(data)=>{
+  const req={
+    data,
+    url: 'v1/comment'
+  }
+  return _get(req)
+}
