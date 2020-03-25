@@ -1,9 +1,8 @@
 <template>
   <div class="searchshops">
-    <div class="header">
-      <i class="el-icon-arrow-left" @click='$router.go(-1)'></i>
-      搜索页
-    </div>
+    <HeaderTop>
+       <template v-slot:middle>搜索页</template>
+    </HeaderTop>
     <div class="search-shops">
       <div class="search">
         <i class="el-icon-search"></i>
@@ -40,6 +39,7 @@
 <script>
 import { searchShops } from "../api/index"
 import Star from '../components/Star/Star'
+import HeaderTop from '../components/HeaderTop/HeaderTop'
 export default {
   data() {
     return {
@@ -57,7 +57,8 @@ export default {
     }
   },
   components:{
-      Star
+      Star,
+      HeaderTop
   }
 }
 </script>
@@ -67,16 +68,6 @@ export default {
   height: 100%;
   background-color: #fff;
   text-align: center;
-  .header {
-    line-height: 50px;
-    position: relative;
-    i {
-      position: absolute;
-      top: 50%;
-      left: 10px;
-      transform: translateY(-50%);
-    }
-  }
   .search-shops {
     display: flex;
     .search {

@@ -10,7 +10,7 @@
     <div class="shop_safe">
       <i class="iconfont icon-icon_huabanfuben"></i>
       <span>查看食品安全文档</span>
-      <i class="el-icon-arrow-right"></i>
+      <i class="iconfont icon-small-right"></i>
     </div>
     <div class="shop_time">
       <i class="iconfont icon-shijian"></i>
@@ -91,7 +91,7 @@ export default {
     span {
       margin-left: 5px;
     }
-    .el-icon-arrow-right {
+    .icon-small-right {
       float: right;
     }
   }

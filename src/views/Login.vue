@@ -2,18 +2,50 @@
   <div class="login">
     <div>
       <div class="username">
-        <input type="text" placeholder="请输入用户名" />
+        <input type="text" placeholder="请输入用户名" v-model='username'/>
       </div>
       <div class="password">
-        <input type="text" placeholder="请输入密码" />
+        <input type="text" placeholder="请输入密码" v-model='password'/>
       </div>
-      <div class="completed">登录</div>
+      <div :class="{completed:true,current:username&&password}" @click='login'>登录</div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import {Toast} from 'mint-ui'
+import {login, location} from '../api/index'
+export default {
+  data(){
+    return{
+      username:null,
+      password:null
+    }
+  },
+  methods:{
+    login(){
+      if(!this.username){
+       Toast('用户名不能为空')
+         return 
+      }
+      if(!this.password)
+      {
+        Toast('密码不能为空');
+        return
+      }
+      login({username:this.username,password:this.password}).then(response=>{
+        if(response.data.status===200){
+          localStorage.setItem('username',this.username)
+         Toast('登录成功');
+          this.$router.back()
+        }
+        else{
+          this.$message.error(response.data.message);
+        }
+      })
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -54,6 +86,10 @@ export default {};
         text-align: center;
         line-height:40px;
         margin-top:30px;
+    }
+    .current{
+      background: orange;
+      color:#fff;
     }
   }
 }

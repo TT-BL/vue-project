@@ -1,15 +1,14 @@
 <template>
   <div class="orderdetail">
-    <div class="header">
-      <i class="el-icon-arrow-left" @click="$router.back()"></i>
-      提交订单
-    </div>
+    <HeaderTop>
+       <template v-slot:middle>提交订单</template>
+    </HeaderTop>
     <div class="orderInfo" ref="info">
       <div>
-        <div class="address">
-          <img src="../assets/increase1.png" alt />
+        <div class="address" @click='$router.push("/addresslist")'>
+          <img src="../assets/position1.png" alt />
           <span>{{address.city}}</span>
-          <i class="el-icon-arrow-right"></i>
+          <i class='iconfont icon-small-right'></i>
         </div>
         <div class="detail">
           <div class="resInfo">
@@ -60,6 +59,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import BScroll from 'better-scroll'
+import HeaderTop from '../components/HeaderTop/HeaderTop'
 export default {
   computed: {
     ...mapState(["restaurant", "currentCart"]),
@@ -75,9 +75,11 @@ export default {
       this.scroll=new BScroll(this.$refs.info,{
         bounce:false
       })
-      console.log(this.scroll);
       
     })
+  },
+  components:{
+    HeaderTop
   }
 };
 </script>
@@ -91,13 +93,6 @@ export default {
   }
   .header {
     .all;
-    height: 50px;
-    text-align: center;
-    line-height: 50px;
-    .el-icon-arrow-left {
-      float: left;
-      margin-top: 17px;
-    }
   }
   .orderInfo {
     overflow: hidden;
@@ -110,7 +105,7 @@ export default {
       margin-top: 10px;
       background: #fff;
       padding: 10px;
-      .el-icon-arrow-right {
+      .icon-small-right {
         float: right;
       }
       img {
@@ -118,7 +113,6 @@ export default {
         vertical-align: sub;
       }
       span {
-        color: #ffb000;
         font-weight: bold;
         margin-left: 5px;
       }

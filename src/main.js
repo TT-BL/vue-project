@@ -2,11 +2,11 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { Button, Select, Rate } from 'element-ui'
 
-Vue.use(Button)
-Vue.use(Select)
-Vue.use(Rate)
+// window.Toast= Toast
+// window.MessageBox=Toast
+// Vue.use(Toast)
+// Vue.use(MessageBox)
 
 Vue.config.productionTip = false
 

@@ -25,17 +25,17 @@ export const _get = (req) => {
 
 // post
 export const _post = (req) => {
-  return ajax.post({ method: 'post', url: `/${req.url}`, data: req.data })
+  return ajax({ method: 'post', url: `/${req.url}`, data: req.data })
 }
 
 // patch
 export const _put = (req) => {
-  return ajax.post({ method: 'put', url: `/${req.url}`, data: req.data })
+  return ajax({ method: 'put', url: `/${req.url}`, data: req.data })
 }
 
 // delete
 export const _delete = (req) => {
-  return ajax.post({ method: 'delete', url: `/${req.url}`, data: req.data })
+  return ajax({ method: 'delete', url: `/${req.url}`, data: req.data })
 }
 
 // post and no withCredentials

@@ -1,4 +1,4 @@
-import { _get } from './ajax'
+import { _get,_post} from './ajax'
 
 // 定位当前位置
 export const location = (data) => {
@@ -51,6 +51,22 @@ export const restaurantComment=(data)=>{
   const req={
     data,
     url: 'v1/comment'
+  }
+  return _get(req)
+}
+//登录
+export const login=(data)=>{
+  const req={
+    data,
+    url:'admin/user_login'
+  }
+  return _post(req)
+}
+//获取我的订单
+export const order=(data)=>{
+  const req={
+    data,
+    url:'/v1/orders'
   }
   return _get(req)
 }

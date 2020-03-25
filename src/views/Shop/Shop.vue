@@ -2,9 +2,7 @@
   <div class="shop">
     <div>
       <div class="header">
-        <div class="back">
-          <i class="el-icon-arrow-left" @click="$router.back()"></i>
-        </div>
+        <HeaderTop></HeaderTop>
         <div class="shop_Introduction">
           <img :src="restaurant.pic_url" alt />
           <div>
@@ -64,6 +62,7 @@
 import { getRestaurant } from "../../api/index";
 import BScroll from "better-scroll";
 import {mapState} from 'vuex'
+import HeaderTop from '../../components/HeaderTop/HeaderTop'
 export default {
   data() {
     return {
@@ -94,6 +93,9 @@ export default {
     this.$nextTick(()=>{
       this.swipper();
     })
+  },
+  components:{
+    HeaderTop
   }
 };
 </script>

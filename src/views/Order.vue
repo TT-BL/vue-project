@@ -1,11 +1,14 @@
 <template>
   <div class="order">
-    <ul>
+    <div v-if='noOrder' class='emptyOrder'>
+      订单空空如也，快去购物吧
+    </div>
+    <ul v-else>
       <li>
         <div class="order_detail">
           <img src="../assets/order1.jpg" alt />
           <span>吉祥混沌</span>
-          <i class="el-icon-arrow-right order-right"></i>
+          <i class="iconfont icon-small-right order-right"></i>
         </div>
         <div class="order_again">
           <div class="mount">
@@ -28,12 +31,42 @@
 </template>
 
 <script>
+import {order} from '../api/index'
+export default {
+  data(){
+    return{
+      orders:[],
+      noOrder:true
+    }
+  },
+  created(){
+    const name=localStorage.getItem('username')
+    if(name==null)
+    {
+      this.$router.push('/login')
+    }
+    else{
+      order().then(response=>{
+        if(response.data.status===200){
+          this.orders=response.data.data
+          this.noOrder= !this.orders.length
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
 .order {
   background-color: white;
   padding: 0 20px;
+  .emptyOrder{
+    width: 100%;
+    position:absolute;
+    top:50%;
+    text-align:center;
+  }
   li {
     margin-bottom: 10px;
     .order_detail {
@@ -48,7 +81,7 @@
       span {
         margin-left: 10px;
       }
-      .el-icon-arrow-right {
+      .icon-small-right {
         float: right;
         line-height: 35px;
       }
