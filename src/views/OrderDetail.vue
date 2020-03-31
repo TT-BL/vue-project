@@ -6,9 +6,21 @@
     <div class="orderInfo" ref="info">
       <div>
         <div class="address" @click='$router.push("/addresslist")'>
-          <img src="../assets/position1.png" alt />
-          <span>{{address.city}}</span>
+        <div v-if='!deliveryAddress.name'>
+          <img src="../assets/increase1.png" alt />
+          <span :style='{color:"orange"}'>请选择收货地址</span>
           <i class='iconfont icon-small-right'></i>
+        </div>
+        <div v-else>
+          <img src="../assets/position1.png" alt />
+          <span class='delivery_address'>{{deliveryAddress.address}}</span>
+          <i class='iconfont icon-small-right'></i>
+          <p class="name_phone">
+            <span>{{deliveryAddress.name}}{{address.gender==='male'?'男士':'女士'}}</span>
+            &nbsp;&nbsp;
+            <span>{{deliveryAddress.phone}}</span>
+          </p>
+        </div>
         </div>
         <div class="detail">
           <div class="resInfo">
@@ -62,13 +74,13 @@ import BScroll from 'better-scroll'
 import HeaderTop from '../components/HeaderTop/HeaderTop'
 export default {
   computed: {
-    ...mapState(["restaurant", "currentCart"]),
+    ...mapState(["restaurant", "currentCart",'deliveryAddress']),
     ...mapGetters(["totalPrice",'address'])
   },
   created() {
     this.restaurant_id = this.$route.query.id;
-    this.$store.dispatch("getShop", this.restaurant_id);
-    this.$store.dispatch("currentCart", this.restaurant_id);
+    this.$store.dispatch("getShop",  this.restaurant_id);
+    this.$store.dispatch("currentCart",  this.restaurant_id);
   },
   mounted(){
     this.$nextTick(()=>{
@@ -104,17 +116,37 @@ export default {
     .address {
       margin-top: 10px;
       background: #fff;
-      padding: 10px;
+      padding: 10px 10px 10px 30px;
+      position:relative;
       .icon-small-right {
-        float: right;
+        position: absolute;
+        right:2px;
+        top:50%;
+        transform: translateY(-50%);
       }
       img {
+        position: absolute;
         width: 20px;
-        vertical-align: sub;
+        left:5px;
+        top:50%;
+        transform: translateY(-50%);
       }
-      span {
+      .delivery_address {
         font-weight: bold;
-        margin-left: 5px;
+        display: inline-block;
+        width: 100%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      p{
+        margin-top:3px;
+        color:#777;
+        font-size:14px;
+        line-height:20px;
+        span{
+          font-weight: 100;
+        }
       }
     }
     .detail {

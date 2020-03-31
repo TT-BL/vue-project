@@ -40,7 +40,7 @@ export default {
     }
   },
   created(){
-    const name=localStorage.getItem('username')
+    const name=localStorage.getItem('mt-username')
     if(name==null)
     {
       this.$router.push('/login')

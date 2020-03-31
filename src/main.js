@@ -7,7 +7,6 @@ import store from './store'
 // window.MessageBox=Toast
 // Vue.use(Toast)
 // Vue.use(MessageBox)
-
 Vue.config.productionTip = false
 
 new Vue({

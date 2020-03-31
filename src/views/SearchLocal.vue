@@ -33,7 +33,8 @@ export default {
     return {
       search: false,
       target_location: "",
-      suggestionLists: []
+      suggestionLists: [],
+      fromHome:false
     };
   },
   computed: {
@@ -41,13 +42,22 @@ export default {
   },
   methods: {
     selectAddress(suggestionList) {
-      this.$store.dispatch("changeLocation",suggestionList)
+      // console.log(~~this.fromHome)
+      if(this.fromHome==true){
+        this.$store.dispatch("changeLocation",suggestionList)
+      }
+      else{
+        this.$store.dispatch("addDelivery",suggestionList)
+      }
       this.$router.back()
     },
     localNow() {
       this.$store.dispatch("getLocation");
       this.$router.back();
     }
+  },
+  created(){
+    this.fromHome=!!this.$route.query.fromHome
   },
   watch: {
     target_location(val) {

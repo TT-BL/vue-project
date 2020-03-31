@@ -7,9 +7,14 @@ import {
   ADD_CART,
   INIT_CART,
   DELETE_CART,
-  CURRENT_CART
+  CURRENT_CART,
+  SAVE_DELIVERY_ADDRESS,
+  ALL_DELIVERY_ADDRESS,
+  CLEAR_DELIVERY_ADDRESS,
+  UPDATE_DELIVERY_ADDRESS,
+  DELIVERY_ADDRESS
 } from './mutation-types'
-import { location,getRestaurant} from '../api'
+import { location,getRestaurant,getAddress} from '../api'
 
 export default {
 
@@ -17,7 +22,8 @@ export default {
   async getLocation ({ commit, state }) {
     const { latitude, longitude,} = state
     const geohash = latitude + ' , ' + longitude
-    const result = await location(geohash)
+    // console.log(geohash)
+    const result = await location()
     if (result.data.status === 200) {
       const data = result.data.data
       commit(RECERVE_ADDRESS, {...data.location})
@@ -65,5 +71,31 @@ export default {
       currentcart={}
     }
     commit(CURRENT_CART,currentcart)
+  },
+  //保存改变的收货位置
+  addDelivery({commit},address){
+    const deliverAddress={city:address.title,...address.location}
+    commit(SAVE_DELIVERY_ADDRESS,deliverAddress)
+  },
+  //清空已保存改变的收货位置 
+  clearDelivery({commit}){
+    commit(CLEAR_DELIVERY_ADDRESS)
+  },
+  //获取用户所有的收货地址
+  getAllAddress({commit}){
+    let address=[]
+    getAddress().then(response=>{
+      if(response.data.status==200)
+      {
+        address=response.data.address
+        commit(ALL_DELIVERY_ADDRESS,address)
+      }
+    })
+  },
+  updateAddress({commit},data){
+    commit(UPDATE_DELIVERY_ADDRESS,data)
+  },
+  deliverAddress({commit},data){
+    commit(DELIVERY_ADDRESS,data)
   }
 }

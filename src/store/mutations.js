@@ -8,7 +8,12 @@ import {
   ADD_CART,
   INIT_CART,
   DELETE_CART,
-  CURRENT_CART
+  CURRENT_CART,
+  SAVE_DELIVERY_ADDRESS,
+  CLEAR_DELIVERY_ADDRESS,
+  ALL_DELIVERY_ADDRESS,
+  UPDATE_DELIVERY_ADDRESS,
+  DELIVERY_ADDRESS
 } from './mutation-types'
 export default {
   [RECERVE_ADDRESS](state, address) {
@@ -83,5 +88,25 @@ export default {
   },
   [CURRENT_CART](state,data){
     state.currentCart=data
+  },
+  [SAVE_DELIVERY_ADDRESS](state,data){
+    state.deliveryAddress={...data}
+  },
+  [CLEAR_DELIVERY_ADDRESS](state){
+    state.deliveryAddress={}
+  },
+  [ALL_DELIVERY_ADDRESS](state,data){
+    state.allAddress=[...data]
+  },
+  [UPDATE_DELIVERY_ADDRESS](state,data){
+    if(data.index){
+      state.allAddress[data.index]={...data.address}
+    }
+    else{
+      state.allAddress=[...data]
+    }
+  },
+  [DELIVERY_ADDRESS](state,data){
+    state.deliveryAddress=data
   }
 }

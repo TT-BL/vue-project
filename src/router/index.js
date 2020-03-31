@@ -78,12 +78,26 @@ const routes = [
   {
     path: '/addresslist',
     name: 'AddressList',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Address/AddressList.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Address/AddressList.vue'),
+    // meta:{
+    //   keepAlive: true,
+    // }
   },
   {
     path: '/addaddress',
     name: 'AddAddress',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Address/AddAddress.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Address/AddAddress.vue'),
+    meta:{
+      keepAlive: true,
+    }
+  },
+  {
+    path: '/editaddress',
+    name: 'EditAddress',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Address/EditAddress.vue'),
+    meta:{
+      keepAlive: true,
+    }
   },
 
 ]

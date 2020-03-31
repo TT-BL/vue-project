@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="HeaderTop">
-      <router-link to="/searchlocal" class="address">
+      <router-link to="/searchlocal?fromHome=true" class="address">
         <i class="el-icon-location-outline"></i>
         {{address.city||'定位中...'}} >
       </router-link>

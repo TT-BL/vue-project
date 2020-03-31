@@ -14,6 +14,7 @@ export default {
   created(){
     this.$store.dispatch('getLocation')
     this.$store.dispatch('initCart')
+    this.$store.dispatch('getAllAddress')
   },
   components: {
     FootGuide

@@ -35,7 +35,7 @@ export default {
       }
       login({username:this.username,password:this.password}).then(response=>{
         if(response.data.status===200){
-          localStorage.setItem('username',this.username)
+          localStorage.setItem('mt-username',this.username)
          Toast('登录成功');
           this.$router.back()
         }

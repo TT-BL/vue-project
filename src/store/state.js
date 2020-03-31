@@ -6,5 +6,7 @@ export default {
   gotAddress:false,
   restaurant:{},
   cart:{},
-  currentCart:{}
+  currentCart:{},
+  deliveryAddress:{},
+  allAddress:[]
 }

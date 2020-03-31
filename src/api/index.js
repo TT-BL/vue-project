@@ -1,4 +1,4 @@
-import { _get,_post} from './ajax'
+import { _get,_post,_delete} from './ajax'
 
 // 定位当前位置
 export const location = (data) => {
@@ -69,4 +69,36 @@ export const order=(data)=>{
     url:'/v1/orders'
   }
   return _get(req)
+}
+//新增收货地址
+export const addAddress=(data)=>{
+  const req={
+    data,
+    url:'admin/address'
+  }
+  return _post(req)
+}
+//获取全部收货地址
+export const getAddress=(data)=>{
+  const req={
+    data
+  }
+  req.url='admin/all_address'
+  return _get(req)
+}
+//更新收货地址
+export const updateAddress=(data)=>{
+  const req={
+    data
+  }
+  req.url='admin/update_address'
+  return _post(req)
+}
+//删除收货地址
+export const deleteAddress=(data)=>{
+  const req={
+    data,
+    url:'admin/address'
+  }
+  return _delete(req)
 }
