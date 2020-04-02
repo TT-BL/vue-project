@@ -63,7 +63,7 @@
     <div class="pay">
       合计
       <span>￥{{totalPrice}}</span>
-      <div>提交订单</div>
+      <div @click='submitOrder'>提交订单</div>
     </div>
   </div>
 </template>
@@ -71,10 +71,12 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import BScroll from 'better-scroll'
+import {MessageBox} from 'mint-ui'
 import HeaderTop from '../components/HeaderTop/HeaderTop'
+import {submitOrder} from '../api/index'
 export default {
   computed: {
-    ...mapState(["restaurant", "currentCart",'deliveryAddress']),
+    ...mapState(["restaurant", "currentCart",'deliveryAddress','currentCart']),
     ...mapGetters(["totalPrice",'address'])
   },
   created() {
@@ -89,6 +91,30 @@ export default {
       })
       
     })
+  },
+  methods:{
+    submitOrder(){
+      if(!this.deliveryAddress.name){
+         MessageBox("", "请输入收货地址");
+      }
+      else{
+        let foods=[]
+        const keys=Object.keys(this.currentCart)
+        keys.forEach(key => {
+          if(Number(key)){
+            foods.push({skus_id: key, num:this.currentCart[key]['rep']})
+          }
+        });
+        submitOrder({restaurant_id: this.restaurant_id, foods, address_id: this.deliveryAddress.id}).then(response=>{
+          if(response.data.status){
+            this.$router.push({path:"paymentorder",query:{order_id: response.data.order_id}})
+          }
+        })
+      }
+      // else{
+      //   this.$router.push('/paymentorder')
+      // }
+    }
   },
   components:{
     HeaderTop

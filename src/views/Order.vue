@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import {order} from '../api/index'
+import {orders} from '../api/index'
 export default {
   data(){
     return{
@@ -46,8 +46,9 @@ export default {
       this.$router.push('/login')
     }
     else{
-      order().then(response=>{
+      orders().then(response=>{
         if(response.data.status===200){
+          console.log(response)
           this.orders=response.data.data
           this.noOrder= !this.orders.length
         }

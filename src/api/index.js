@@ -62,14 +62,6 @@ export const login=(data)=>{
   }
   return _post(req)
 }
-//获取我的订单
-export const order=(data)=>{
-  const req={
-    data,
-    url:'/v1/orders'
-  }
-  return _get(req)
-}
 //新增收货地址
 export const addAddress=(data)=>{
   const req={
@@ -101,4 +93,43 @@ export const deleteAddress=(data)=>{
     url:'admin/address'
   }
   return _delete(req)
+}
+//提交订单
+export const submitOrder=(data)=>{
+  const req={
+    data,
+    url:'v1/order'
+  }
+  return _post(req)
+}
+//获取订单信息
+export const orderInfo=(data)=>{
+  const req={
+    url:`v1/order/${data.order_id}`
+  }
+  return _get(req)
+}
+//获取我的订单
+export const orders=(data)=>{
+  const req={
+    data,
+    url:'v1/orders'
+  }
+  return _get(req)
+}
+//准备支付
+export const initPay=(data)=>{
+  const req={
+    data,
+    url:'v1/pay'
+  }
+  return _post(req)
+}
+//监听扫码支付状态
+export const listenStatus=(data)=>{
+  const req={
+    data,
+    url:'v1/listen_status'
+  }
+  return _get(req)
 }

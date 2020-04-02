@@ -99,6 +99,16 @@ const routes = [
       keepAlive: true,
     }
   },
+  {
+    path: '/paymentorder',
+    name: 'PaymentOrder',
+    component: () => import(/* webpackChunkName: "about" */ '../views/pay/PaymentOrder.vue')
+  },
+  {
+    path: '/scan',
+    name: 'Scan',
+    component: () => import(/* webpackChunkName: "about" */ '../views/pay/Scan.vue')
+  },
 
 ]
 
