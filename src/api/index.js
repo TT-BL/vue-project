@@ -12,7 +12,7 @@ export const location = (data) => {
 export const suggestion=(data)=>{
   const req = {
     data,
-    url: 'v1/suggestion'
+    url: '/v1/suggestion'
   }
   return _get(req)
 }
@@ -20,7 +20,7 @@ export const suggestion=(data)=>{
 export const getRestaurants=(data)=>{
   const req = {
     data,
-    url: 'v1/restaurants'
+    url: '/v1/restaurants'
   }
   return _get(req)
 }
@@ -28,21 +28,21 @@ export const getRestaurants=(data)=>{
 export const searchShops=(data)=>{
   const req = {
     data,
-    url: 'v1/search/restaurant'
+    url: '/v1/search/restaurant'
   }
   return _get(req)
 }
 //获取商家详细信息
 export const getRestaurant=(data)=>{
   const req={
-    url:`v1/restaurant/${data}`
+    url:`/v1/restaurant/${data}`
   }
   return _get(req)
 }
 //获取食物信息
 export const getFoods=(data)=>{
   const req={
-    url:`v1/food/${data}`
+    url:`/v1/food/${data}`
   }
   return _get(req)
 }
@@ -50,7 +50,7 @@ export const getFoods=(data)=>{
 export const restaurantComment=(data)=>{
   const req={
     data,
-    url: 'v1/comment'
+    url: '/v1/comment'
   }
   return _get(req)
 }
@@ -75,7 +75,7 @@ export const getAddress=(data)=>{
   const req={
     data
   }
-  req.url='admin/all_address'
+  req.url='/admin/all_address'
   return _get(req)
 }
 //更新收货地址
@@ -105,7 +105,7 @@ export const submitOrder=(data)=>{
 //获取订单信息
 export const orderInfo=(data)=>{
   const req={
-    url:`v1/order/${data.order_id}`
+    url:`/v1/order/${data.order_id}`
   }
   return _get(req)
 }
@@ -113,7 +113,7 @@ export const orderInfo=(data)=>{
 export const orders=(data)=>{
   const req={
     data,
-    url:'v1/orders'
+    url:'/v1/orders'
   }
   return _get(req)
 }
@@ -129,7 +129,7 @@ export const initPay=(data)=>{
 export const listenStatus=(data)=>{
   const req={
     data,
-    url:'v1/listen_status'
+    url:'/v1/listen_status'
   }
   return _get(req)
 }

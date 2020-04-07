@@ -14,7 +14,7 @@ import {
   UPDATE_DELIVERY_ADDRESS,
   DELIVERY_ADDRESS
 } from './mutation-types'
-import { location,getRestaurant,getAddress} from '../api'
+import { location,getRestaurant,getAddress} from '../api/index'
 
 export default {
 
@@ -85,6 +85,7 @@ export default {
   getAllAddress({commit}){
     let address=[]
     getAddress().then(response=>{
+      console.log(response)
       if(response.data.status==200)
       {
         address=response.data.address

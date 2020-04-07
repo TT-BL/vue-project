@@ -50,6 +50,9 @@ export default {
   computed: {
     ...mapState(["deliveryAddress",'allAddress'])
   },
+  created(){
+     console.log(this.allAddress.length);
+  },
   methods: {
     saveDelivery() {
       if (this.contact == "") {
@@ -71,14 +74,18 @@ export default {
         ...this.deliveryAddress,
         address: this.deliveryAddress.city
       };
-      addAddress(address).then(response => {
-        // console.log(response);
-        if (response.data.status === 200) {
-          this.$store.dispatch("updateAddress",{index:this.allAddress.length,address});
+       this.$store.dispatch("updateAddress",{index:this.allAddress.length,address});
           Toast('添加成功')
           this.$router.back();
-        }
-      });
+      // addAddress(address).then(response => {
+      //   console.log(response);
+       
+      //   if (response.data.status === 200) {
+      //     this.$store.dispatch("updateAddress",{index:this.allAddress.length,address});
+      //     Toast('添加成功')
+      //     this.$router.back();
+      //   }
+      // });
     }
   },
 };

@@ -3,7 +3,8 @@ import config from '../config'
 import router from '../router/index'
 const baseURL = config.baseURL
 const ajax = axios.create({
-  baseURL: baseURL,            //api请求的baseURL
+  // baseURL: baseURL, 
+  baseURL:baseURL,           //api请求的baseURL
   timeout: 0,
   withCredentials: true, // 允许跨域 cookie
   headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -15,6 +16,7 @@ const ajax = axios.create({
       data = {};
     }
     if (data.status === 403) {
+      console.log(data);
       localStorage.removeItem('mt-username')
       router.push('/login');
     }

@@ -1,26 +1,26 @@
 <template>
   <div class="orderdetail">
     <HeaderTop>
-       <template v-slot:middle>提交订单</template>
+      <template v-slot:middle>提交订单</template>
     </HeaderTop>
     <div class="orderInfo" ref="info">
       <div>
-        <div class="address" @click='$router.push("/addresslist")'>
-        <div v-if='!deliveryAddress.name'>
-          <img src="../assets/increase1.png" alt />
-          <span :style='{color:"orange"}'>请选择收货地址</span>
-          <i class='iconfont icon-small-right'></i>
-        </div>
-        <div v-else>
-          <img src="../assets/position1.png" alt />
-          <span class='delivery_address'>{{deliveryAddress.address}}</span>
-          <i class='iconfont icon-small-right'></i>
-          <p class="name_phone">
-            <span>{{deliveryAddress.name}}{{address.gender==='male'?'男士':'女士'}}</span>
-            &nbsp;&nbsp;
-            <span>{{deliveryAddress.phone}}</span>
-          </p>
-        </div>
+        <div class="address" @click="$router.push('/addresslist')">
+          <div v-if="!deliveryAddress.name">
+            <img src="../assets/increase1.png" alt />
+            <span :style="{color:'orange'}">请选择收货地址</span>
+            <i class="iconfont icon-small-right"></i>
+          </div>
+          <div v-else>
+            <img src="../assets/position1.png" alt />
+            <span class="delivery_address">{{deliveryAddress.address}}</span>
+            <i class="iconfont icon-small-right"></i>
+            <p class="name_phone">
+              <span>{{deliveryAddress.name}}{{address.gender==='male'?'男士':'女士'}}</span>
+              &nbsp;&nbsp;
+              <span>{{deliveryAddress.phone}}</span>
+            </p>
+          </div>
         </div>
         <div class="detail">
           <div class="resInfo">
@@ -63,60 +63,83 @@
     <div class="pay">
       合计
       <span>￥{{totalPrice}}</span>
-      <div @click='submitOrder'>提交订单</div>
+      <div @click="submitOrder">提交订单</div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import BScroll from 'better-scroll'
-import {MessageBox} from 'mint-ui'
-import HeaderTop from '../components/HeaderTop/HeaderTop'
-import {submitOrder} from '../api/index'
+import BScroll from "better-scroll";
+import { MessageBox } from "mint-ui";
+import HeaderTop from "../components/HeaderTop/HeaderTop";
+import { submitOrder } from "../api/index";
 export default {
+  data() {
+    return {
+      isSubmit: false
+    };
+  },
   computed: {
-    ...mapState(["restaurant", "currentCart",'deliveryAddress','currentCart']),
-    ...mapGetters(["totalPrice",'address'])
+    ...mapState([
+      "restaurant",
+      "currentCart",
+      "deliveryAddress",
+      "currentCart"
+    ]),
+    ...mapGetters(["totalPrice", "address"])
   },
   created() {
     this.restaurant_id = this.$route.query.id;
-    this.$store.dispatch("getShop",  this.restaurant_id);
-    this.$store.dispatch("currentCart",  this.restaurant_id);
+    this.$store.dispatch("getShop", this.restaurant_id);
+    this.$store.dispatch("currentCart", this.restaurant_id);
   },
-  mounted(){
-    this.$nextTick(()=>{
-      this.scroll=new BScroll(this.$refs.info,{
-        bounce:false
-      })
-      
-    })
+  mounted() {
+    this.$nextTick(() => {
+      this.scroll = new BScroll(this.$refs.info, {
+        bounce: false
+      });
+    });
   },
-  methods:{
-    submitOrder(){
-      if(!this.deliveryAddress.name){
-         MessageBox("", "请输入收货地址");
+  methods: {
+    submitOrder() {
+      if (this.isSubmit) {
+        return;
       }
-      else{
-        let foods=[]
-        const keys=Object.keys(this.currentCart)
-        keys.forEach(key => {
-          if(Number(key)){
-            foods.push({skus_id: key, num:this.currentCart[key]['rep']})
-          }
-        });
-        submitOrder({restaurant_id: this.restaurant_id, foods, address_id: this.deliveryAddress.id}).then(response=>{
-          if(response.data.status){
-            this.$router.push({path:"paymentorder",query:{order_id: response.data.order_id}})
-          }
-        })
+      else {
+        if (!this.deliveryAddress.name) {
+          MessageBox("", "请输入收货地址");
+        } else {
+          this.isSubmit=true
+          let foods = [];
+          const keys = Object.keys(this.currentCart);
+          keys.forEach(key => {
+            if (Number(key)) {
+              foods.push({ skus_id: key, num: this.currentCart[key]["rep"] });
+            }
+          });
+          submitOrder({
+            restaurant_id: this.restaurant_id,
+            foods,
+            address_id: this.deliveryAddress.id
+          }).then(response => {
+            console.log(response);
+            if (response.data.status) {
+              this.isSubmit=false
+              this.$router.push({
+                path: "paymentorder",
+                query: { order_id: response.data.order_id }
+              });
+            }
+          });
+        }
       }
       // else{
       //   this.$router.push('/paymentorder')
       // }
     }
   },
-  components:{
+  components: {
     HeaderTop
   }
 };
@@ -124,7 +147,7 @@ export default {
 
 <style lang="less" scoped>
 .orderdetail {
-  height:100%;
+  height: 100%;
   .all {
     background: #fff;
     padding: 0 10px;
@@ -134,27 +157,27 @@ export default {
   }
   .orderInfo {
     overflow: hidden;
-    height: calc(~'100% - 100px');
-    & > div{
-      margin:10px 0;
+    height: calc(~"100% - 100px");
+    & > div {
+      margin: 10px 0;
       overflow: inherit;
     }
     .address {
       margin-top: 10px;
       background: #fff;
       padding: 10px 10px 10px 30px;
-      position:relative;
+      position: relative;
       .icon-small-right {
         position: absolute;
-        right:2px;
-        top:50%;
+        right: 2px;
+        top: 50%;
         transform: translateY(-50%);
       }
       img {
         position: absolute;
         width: 20px;
-        left:5px;
-        top:50%;
+        left: 5px;
+        top: 50%;
         transform: translateY(-50%);
       }
       .delivery_address {
@@ -165,12 +188,12 @@ export default {
         text-overflow: ellipsis;
         overflow: hidden;
       }
-      p{
-        margin-top:3px;
-        color:#777;
-        font-size:14px;
-        line-height:20px;
-        span{
+      p {
+        margin-top: 3px;
+        color: #777;
+        font-size: 14px;
+        line-height: 20px;
+        span {
           font-weight: 100;
         }
       }

@@ -99,7 +99,9 @@ export default {
     state.allAddress=[...data]
   },
   [UPDATE_DELIVERY_ADDRESS](state,data){
-    if(data.index){
+    console.log(data.index);
+    
+    if(data.index!==undefined){
       state.allAddress[data.index]={...data.address}
     }
     else{

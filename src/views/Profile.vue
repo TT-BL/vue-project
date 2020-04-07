@@ -57,7 +57,7 @@ export default {
     };
   },
   created() {
-    const name = localStorage.getItem("username");
+    const name = localStorage.getItem("mt-username");
     if (name != null) {
       this.username = name;
     }
@@ -66,7 +66,7 @@ export default {
     loginout() {
       MessageBox.confirm("确定退出登录?")
         .then(action => {
-          localStorage.removeItem('username')
+          localStorage.removeItem('mt-username')
           Toast("退出登录成功");
           this.$router.push('/login')
         })
